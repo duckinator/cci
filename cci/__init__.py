@@ -54,22 +54,22 @@ def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
 
-    if any(map(lambda x: x == "-h" or x == "--help", argv)) or len(argv) != 1:
+    if argv[0] == "-h" or argv[0] == "--help":
         # Print help text.
         print(inspect.getdoc(main))
         exit(1)
-    else:
-        # We got a file name only.
-        f = open(argv[0])
-        _, header_argv = get_headers(f)
 
-    args = shlex.split(header_argv)
+    filename, *program_args = argv
+    f = open(argv[0])
+    _, header_argv = get_headers(f)
 
-    clang = ["clang", "-xc", *args, "-", "-S", "-emit-llvm", "-o", "-"]
-    lli   = ["lli", "-"]
+    clang_args = shlex.split(header_argv)
+
+    clang = ["clang", "-xc", *clang_args, "-", "-S", "-emit-llvm", "-o", "-"]
+    lli   = ["lli", "-", *program_args]
 
     commands = [clang]
-    if not "-###" in args:
+    if not "-###" in clang_args:
         commands.append(lli)
 
     with f:
