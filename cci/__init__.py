@@ -54,7 +54,7 @@ def main(argv=None):
     if argv is None:
         argv = sys.argv[1:]
 
-    if argv[0] == "-h" or argv[0] == "--help":
+    if len(args) == 0 or argv[0] == "-h" or argv[0] == "--help":
         # Print help text.
         print(inspect.getdoc(main))
         exit(1)
