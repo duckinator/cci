@@ -14,12 +14,12 @@ to e.g. enforce stricter error checking by Clang.
 Due to limitations in how shebang lines work, when you use cci, you have
 to put arguments to Clang on the line immediately after the shebang line.
 
-To avoid ambiguity, that line must start with "# cci:".
+To avoid ambiguity, that line must start with "// cci:".
 
 For example, save the following to "hello-world.c":
 
     #!/usr/bin/env cci
-    # cci: -std=c11 -Wall -pedantic-errors
+    // cci: -std=c11 -Wall -pedantic-errors
     #include <stdio.h>
     int main() {
         printf("Hello, world!\n")
