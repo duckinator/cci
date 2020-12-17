@@ -42,7 +42,7 @@ Release_task:
     image: python:3.8-slim
   install_script:
     - apt-get update
-    - apt-get install -y clang llvm
+    - apt-get install -y clang llvm git
     - pip3 install . .[tests]
   build_script:
     - bork clean
