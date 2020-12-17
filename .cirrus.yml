@@ -41,9 +41,7 @@ Release_task:
   container:
     image: python:3.8-slim
   install_script:
-    - apt-get update
-    - apt-get install -y git
-    - pip3 install . .[testing]
+    - pip3 install . .[tests]
   build_script:
     - bork clean
     - bork build
