@@ -28,7 +28,8 @@ Linux_task:
     - bork run test
 
 Release_task:
-  only_if: "changesInclude('cci/__init__.py') && $BRANCH == 'master' && $CIRRUS_CRON == ''"
+  #only_if: "changesInclude('cci/version.py') && $BRANCH == 'master' && $CIRRUS_CRON == ''"
+  only_if: "$BRANCH == 'master' && $CIRRUS_CRON == ''"
   trigger_type: manual
   depends_on:
     - Lint
