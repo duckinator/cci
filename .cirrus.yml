@@ -40,7 +40,9 @@ Release_task:
     BORK_GITHUB_TOKEN: ENCRYPTED[aa0e92c1ad7e92b9888ba1760e7d3b4b5dad81e792fb5f83bf9b79fe00dbecc0315231449e667886fead4b2af1fc3e3d]
   container:
     image: python:3.8-slim
-  install_script:
+    install_script:
+    - apt-get update
+    - apt-get install -y clang llvm
     - pip3 install . .[tests]
   build_script:
     - bork clean
