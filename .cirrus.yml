@@ -2,8 +2,7 @@ Lint_task:
   container:
     image: python:3.8-slim
   install_script:
-    - pip install .
-    - pip install .[testing]
+    - pip install . .[tests]
   script:
     - pylint --version
     - bork run lint
