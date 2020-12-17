@@ -15,15 +15,18 @@ def get_flags(filename):
     return ""
 
 def pipe(cmds, stdin, stdout):
+    """Given a series of commands, create and run a shell-style pipeline."""
     procs = []
     limit = len(cmds) - 1
 
+    # pylint:disable=bad-whitespace
     for (idx, cmd) in enumerate(cmds):
         cur_stdin  = stdin  if idx == 0     else procs[idx - 1].stdout
         cur_stdout = stdout if idx == limit else PIPE
         procs.append(Popen(cmd, stdin=cur_stdin, stdout=cur_stdout))
+    # pylint:enable=bad-whitespace
 
-    return procs[-1].communicate()
+    return procs[-1].wait()
 
 def main(argv=None):
     """
@@ -55,16 +58,17 @@ def main(argv=None):
     if len(argv) == 0 or argv[0] == "-h" or argv[0] == "--help":
         # Print help text.
         print(inspect.getdoc(main))
-        exit(1)
+        sys.exit(1)
 
     filename, *program_args = argv
     clang_args = shlex.split(get_flags(filename))
 
     clang = ["clang", "-xc", *clang_args, "-", "-S", "-emit-llvm", "-o", "-"]
-    lli   = ["lli", "-", *program_args]
+    lli = ["lli", "-", *program_args]
 
     commands = [clang]
-    if not "-###" in clang_args:
+    if "-###" not in clang_args:
+        # If -### is passed to clang, it doesn't generate LLVM output.
         commands.append(lli)
 
     with open(filename, "rb", buffering=0) as f:
