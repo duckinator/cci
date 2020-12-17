@@ -67,7 +67,7 @@ def main(argv=None):
     if not "-###" in clang_args:
         commands.append(lli)
 
-    with open(filename, "r") as f:
+    with open(filename, "rb", buffering=0) as f:
         f.readline() # Skip shebang line.
         pipe(commands, stdin=f, stdout=sys.stdout)
 
