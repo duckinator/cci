@@ -19,12 +19,10 @@ def pipe(cmds, stdin, stdout):
     procs = []
     limit = len(cmds) - 1
 
-    # pylint:disable=bad-whitespace
     for (idx, cmd) in enumerate(cmds):
         cur_stdin  = stdin  if idx == 0     else procs[idx - 1].stdout
         cur_stdout = stdout if idx == limit else PIPE
         procs.append(Popen(cmd, stdin=cur_stdin, stdout=cur_stdout))
-    # pylint:enable=bad-whitespace
 
     return procs[-1].wait()
 
