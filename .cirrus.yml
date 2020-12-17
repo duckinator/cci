@@ -1,0 +1,44 @@
+Lint_task:
+  container:
+    image: python:3.8-slim
+  install_script:
+    - pip install .
+    - pip install .[testing]
+  script:
+    - pylint --version
+    - bork run lint
+
+Linux_task:
+  container:
+    matrix:
+      - image: python:3.6-slim
+      - image: python:3.7-slim
+      - image: python:3.8-slim
+    - pip install . .[tests]
+  script:
+    - python3 --version
+    - bork run test
+
+Release_task:
+  only_if: "changesInclude('cci/__init__.py') && $BRANCH == 'master' && $CIRRUS_CRON == ''"
+  trigger_type: manual
+  depends_on:
+    - Lint
+    - Linux
+  env:
+    TWINE_USERNAME: "__token__"
+    TWINE_PASSWORD: ENCRYPTED[fb9b84462a80a9ba4eb8bce1032bf6a53952b95106e9df16d37855f87cad056ca25ad00a144c4d5252ce7ee472b780e5]
+    BORK_GITHUB_TOKEN: ENCRYPTED[aa0e92c1ad7e92b9888ba1760e7d3b4b5dad81e792fb5f83bf9b79fe00dbecc0315231449e667886fead4b2af1fc3e3d]
+  container:
+    image: python:3.8-slim
+  install_script:
+    - apt-get update
+    - apt-get install -y git
+    - pip3 install . .[testing]
+  build_script:
+    - bork clean
+    - bork build
+  test_script:
+    - bork run test
+  release_script:
+    - bork release
