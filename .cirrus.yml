@@ -1,3 +1,9 @@
+# This makes Click, a library used by Bork, behave itself.
+env:
+  LC_ALL: C.UTF-8
+  LANG: C.UTF-8
+
+
 Lint_task:
   container:
     image: python:3.8-slim
