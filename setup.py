@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
 
-import setuptools
+from setuptools import setup  # type: ignore
 
-setuptools.setup()
+setup()
