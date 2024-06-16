@@ -72,6 +72,3 @@ def main(argv=None):
     with open(filename, "rb", buffering=0) as f:
         f.readline() # Skip shebang line.
         pipe(commands, stdin=f, stdout=sys.stdout)
-
-if __name__ == "__main__":
-    main()

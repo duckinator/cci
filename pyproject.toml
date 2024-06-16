@@ -1,10 +1,33 @@
 [build-system]
 # Specify the required build system.
-requires = ["setuptools", "wheel"]
+requires = ["setuptools >= 61", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[tool.bork]
-project_name = "cci"
+[project]
+name = "cci"
+version = "5.1.0"
+authors = [
+    {name = "Ellen Marie Dash", email = "me@duckie.co"},
+]
+description = "Use the Clang + LLVM toolchain as an interpreter for C code."
+readme = "README.md"
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+requires-python = ">= 3.6"
+
+[project.urls]
+repository = "https://github.com/duckinator/cci"
 
 [tool.bork.zipapp]
 enabled = true

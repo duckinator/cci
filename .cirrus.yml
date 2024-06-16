@@ -3,33 +3,25 @@ env:
   LC_ALL: C.UTF-8
   LANG: C.UTF-8
 
-
-Lint_task:
-  container:
-    image: python:3.8-slim
-  install_script:
-    - pip install . .[tests]
-  script:
-    - pylint --version
-    - bork run lint
-
 Linux_task:
   container:
     matrix:
-      - image: python:3.6-slim
-      - image: python:3.7-slim
       - image: python:3.8-slim
+      - image: python:3.9-slim
+      - image: python:3.10-slim
+      - image: python:3.11-slim
+      - image: python:3.12-slim
   install_script:
     - apt-get update
     - apt-get install -y clang llvm
-    - pip install . .[tests]
+    - pip install . bork
   script:
     - python3 --version
     - bork run test
 
 Release_task:
   #only_if: "changesInclude('cci/version.py') && $BRANCH == 'master' && $CIRRUS_CRON == ''"
-  only_if: "$BRANCH == 'master' && $CIRRUS_CRON == ''"
+  only_if: "changesInclude('pyproject.toml') && $BRANCH == 'master' && $CIRRUS_CRON == ''"
   trigger_type: manual
   depends_on:
     - Lint
@@ -37,13 +29,13 @@ Release_task:
   env:
     TWINE_USERNAME: "__token__"
     TWINE_PASSWORD: ENCRYPTED[fb9b84462a80a9ba4eb8bce1032bf6a53952b95106e9df16d37855f87cad056ca25ad00a144c4d5252ce7ee472b780e5]
-    BORK_GITHUB_TOKEN: ENCRYPTED[aa0e92c1ad7e92b9888ba1760e7d3b4b5dad81e792fb5f83bf9b79fe00dbecc0315231449e667886fead4b2af1fc3e3d]
+    BORK_GITHUB_TOKEN: ENCRYPTED[d7c2e4a5fdc8d85ac7122d5a53eb10e7f4fe91f663edf14321a53c5307662f49319ff2e57d6764a355bb8a040ce8890e]
   container:
-    image: python:3.8-slim
+    image: python:3.12-slim
   install_script:
     - apt-get update
     - apt-get install -y clang llvm git
-    - pip3 install . .[tests]
+    - pip3 install . bork
   build_script:
     - bork clean
     - bork build
