@@ -4,6 +4,18 @@ cci wraps tools in the LLVM toolchain to allow you to compile and run C
 programs on-the-fly using a JIT compiler, instead of requiring a
 dedicated compilation phase.
 
+Requirements:
+- Python 3.6+
+- `clang` and `lli` executables.
+
+## Installation
+
+```
+pipx install cci
+```
+
+To test it, see the examples in the next section.
+
 ## Usage
 
 To use cci, you point the shebang line of a C file at it.
