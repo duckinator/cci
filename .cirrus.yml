@@ -1,8 +1,3 @@
-# This makes Click, a library used by Bork, behave itself.
-env:
-  LC_ALL: C.UTF-8
-  LANG: C.UTF-8
-
 Linux_task:
   container:
     matrix:
@@ -19,13 +14,17 @@ Linux_task:
     - python3 --version
     - bork run test
 
+success_task:
+  name: CI Success
+  container: {image: "busybox"}
+  depends_on:
+    - Linux
+
 Release_task:
   #only_if: "changesInclude('cci/version.py') && $BRANCH == 'master' && $CIRRUS_CRON == ''"
   only_if: "changesInclude('pyproject.toml') && $BRANCH == 'master' && $CIRRUS_CRON == ''"
   trigger_type: manual
-  depends_on:
-    - Lint
-    - Linux
+  depends_on: [CI Success]
   env:
     TWINE_USERNAME: "__token__"
     TWINE_PASSWORD: ENCRYPTED[fb9b84462a80a9ba4eb8bce1032bf6a53952b95106e9df16d37855f87cad056ca25ad00a144c4d5252ce7ee472b780e5]
