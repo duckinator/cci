@@ -21,8 +21,8 @@ success_task:
     - Linux
 
 Release_task:
-  #only_if: "changesInclude('cci/version.py') && $BRANCH == 'master' && $CIRRUS_CRON == ''"
-  only_if: "changesInclude('pyproject.toml') && $BRANCH == 'master' && $CIRRUS_CRON == ''"
+  #only_if: "changesInclude('cci/version.py') && $BRANCH == 'main' && $CIRRUS_CRON == ''"
+  only_if: "changesInclude('pyproject.toml') && $BRANCH == 'main' && $CIRRUS_CRON == ''"
   trigger_type: manual
   depends_on: [CI Success]
   env:
