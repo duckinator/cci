@@ -26,6 +26,9 @@ classifiers = [
 
 requires-python = ">= 3.6"
 
+[project.scripts]
+cci = "cci:main"
+
 [project.urls]
 repository = "https://github.com/duckinator/cci"
 
